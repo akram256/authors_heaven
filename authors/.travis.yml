@@ -1,0 +1,18 @@
+python:
+    - "3.6"	    - "3.6"
+
+
+ services: 
+    - postgresql
+
+ before_script:
+    - psql -c 'create database ah_groot_db;' -U postgres
+
+ install:	install:
+    - pip install -r requirements.txt	    
+  
+ script:
+    - coverage run --source='authors' manage.py test
+
+ after_success:
+    - coveralls
