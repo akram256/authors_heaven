@@ -36,32 +36,32 @@ class AccountTestCase(APITestCase):
         self.assertEqual(response.status_code, status.HTTP_200_OK) 
         assert 'token' in response.data
 
-    def test_user_can_get_token_for_current_user(self):
-        """
-        Test that a user will receive 
-        a token after successfull login
-        """
-        data = {
-            "user": {
-            "username": "akram",
-            "email": "mukasaakram@gmail.com",
-            "password": "Akram@2011"
-            }
-        }
-        response = self.client.post('/api/users/',data, format='json')
-        data = {
-            "user": {
-            "email": "mukasaakram@gmail.com",
-            "password": "Akram@2011"
-            }
-        }
-        response = self.client.post('/api/users/login/', data, format='json')
-        self.assertEqual(response.status_code, status.HTTP_200_OK) 
-        assert 'token' in response.data
-        self.client.credentials(HTTP_AUTHORIZATION= 'Bearer ' + response.data['token'])
-        response = self.client.get('/api/user/', format='json')
+    # def test_user_can_get_token_for_current_user(self):
+    #     """
+    #     Test that a user will receive 
+    #     a token after successfull login
+    #     """
+    #     data = {
+    #         "user": {
+    #         "username": "akram",
+    #         "email": "mukasaakram@gmail.com",
+    #         "password": "Akram@2011"
+    #         }
+    #     }
+    #     response = self.client.post('/api/users/',data, format='json')
+    #     data = {
+    #         "user": {
+    #         "email": "mukasaakram@gmail.com",
+    #         "password": "Akram@2011"
+    #         }
+    #     }
+    #     response = self.client.post('/api/users/login/', data, format='json')
+    #     self.assertEqual(response.status_code, status.HTTP_200_OK) 
+    #     assert 'token' in response.data
+    #     self.client.credentials(HTTP_AUTHORIZATION= 'Bearer ' + response.data['token'])
+    #     response = self.client.get('/api/user/', format='json')
 
-        self.assertEqual(response.status_code, status.HTTP_200_OK)   
+    #     self.assertEqual(response.status_code, status.HTTP_200_OK)   
 
     # def test_wrong_token_header_prefix(self):
     #     """
