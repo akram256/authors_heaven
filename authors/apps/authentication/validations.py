@@ -12,7 +12,7 @@ def validate_registration(data):
 
              {
 
-             'input fields':
+            'input fields':
             'Please all input fields are required'   
             }
 
