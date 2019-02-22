@@ -1,6 +1,7 @@
 Authors Haven - A Social platform for the creative at heart.
 =======
 
+[![Maintainability](https://api.codeclimate.com/v1/badges/8d309982ad45dbe532a2/maintainability)](https://codeclimate.com/github/akram256/authors_heaven/maintainability)
 
 [![Build Status](https://travis-ci.org/akram256/authors_heaven.svg?branch=master)](https://travis-ci.org/akram256/authors_heaven)
 
