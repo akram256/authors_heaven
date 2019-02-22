@@ -1,18 +1,16 @@
 python:
     - "3.7.2"	    - "3.7.2"
-
-
- services: 
+services: 
     - postgresql
 
- before_script:
+before_script:
     - psql -c 'create database ah_groot_db;' -U postgres
 
- install:	install:
+install:
     - pip install -r requirements.txt	    
   
- script:
+script:
     - coverage run --source='authors' manage.py test
 
- after_success:
+after_success:
     - coveralls
