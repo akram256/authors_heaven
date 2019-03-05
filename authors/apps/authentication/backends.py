@@ -8,6 +8,7 @@
 
 """Configure JWT Here"""
 from django.conf import settings
+import jwt
 from rest_framework import authentication, exceptions
 from rest_framework.authentication import (
     BaseAuthentication, get_authorization_header)
@@ -22,7 +23,7 @@ class JWTAuthentication(authentication.BaseAuthentication):
         """
         The method splits the token header and
         if successful it returns user/token combination 
-        to the _authenticate_credentials method. if not, 
+        to the _authenticate_credentials method. if not,
         throws an error.
         """
         request.user = None
@@ -49,14 +50,15 @@ class JWTAuthentication(authentication.BaseAuthentication):
         """
         try:
             payload = jwt.decode(token, settings.SECRET_KEY)
-        except:
-            msg = 'Invalid authentication. Could not decode token.'
+        except Exception as e:
+            print(str(e))
+            msg = 'Invalid authentication. Could not decode this token.'
             raise exceptions.AuthenticationFailed(msg)
 
         try:
             user = User.objects.get(pk=payload['id'])
         except User.DoesNotExist:
-            msg = 'User with this token was not found.'
+            msg = 'User with this token was not found, please check your credentials.'
             raise exceptions.AuthenticationFailed(msg)
 
         if not user.is_active:

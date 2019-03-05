@@ -1,7 +1,7 @@
 from django.contrib.auth import authenticate
-
+from django.shortcuts import get_object_or_404
+from django.core.mail import send_mail
 from rest_framework import serializers
-
 from .models import User
 
 
@@ -34,8 +34,7 @@ class LoginSerializer(serializers.Serializer):
     email = serializers.CharField(max_length=255)
     username = serializers.CharField(max_length=255, read_only=True)
     password = serializers.CharField(max_length=128, write_only=True)
-    token = serializers.CharField(max_length= 255 , read_only=True)
-
+    token = serializers.CharField(max_length=255, read_only=True)
 
     def validate(self, data):
         # The `validate` method is where we make sure that the current
@@ -145,3 +144,32 @@ class UserSerializer(serializers.ModelSerializer):
         instance.save()
 
         return instance
+
+
+class ResetPasswordSerializer(serializers.Serializer):
+    """
+        Handles serialization of User to reset password
+    """
+    email = serializers.EmailField(allow_blank=False)
+
+    def validate_email(self, data):
+        email = data
+        if email is None:
+            raise serializers.ValidationError(
+                'Please an email is needed, thank you'
+            )
+        user = get_object_or_404(User, email=email)
+        if email is None:
+            raise serializers.ValidationError(
+                'Please enter a valid email, thank you'
+            )
+        recipient = user.email
+        subject = "Authors Haven App. Reset your password"
+        token = user.token
+        url = "http://127.0.0.1:8000/api/password-reset/"
+        body = " Click on this link to reset your password {}{}/".format(url,token)
+        send_mail(subject, body, 'from', [
+                recipient], fail_silently=False)
+        return {
+            'email': user,
+        }
